@@ -1,72 +1,104 @@
-# 🧠 Desafío: Predicción de Attrition en Recursos Humanos
+# 🧠 Employee Attrition Prediction
+
+Este proyecto tiene como objetivo predecir si un empleado va a dejar la empresa (attrition) utilizando técnicas de aprendizaje supervisado con Python y scikit-learn.
+
+Es un proyecto introductorio de machine learning que pone en práctica todo el flujo básico de trabajo: análisis exploratorio, preprocesamiento, entrenamiento de varios modelos, evaluación con métricas relevantes y ajuste de hiperparámetros.
+
+---
 
 ## 🎯 Objetivo
 
-Construir un modelo de machine learning supervisado que prediga si un empleado va a dejar la empresa (`Attrition`). Aplicarás un flujo de trabajo profesional utilizando `scikit-learn`, que incluirá exploración de datos, preprocesamiento, entrenamiento de modelos, evaluación, tuning de hiperparámetros y organización en un `Pipeline`.
+Desarrollar un modelo de clasificación binaria para anticipar la rotación de empleados, utilizando un dataset real de recursos humanos. El foco está en detectar de forma confiable a los empleados propensos a renunciar, para que una empresa pueda actuar preventivamente.
 
 ---
 
 ## 📦 Dataset
 
-Usarás el dataset **IBM HR Analytics Employee Attrition & Performance**, disponible en Kaggle:
-
-🔗 [IBM HR Analytics Dataset](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
-
-Este dataset contiene variables demográficas, de desempeño y satisfacción laboral de empleados.
-
----
-
-## 🧠 Lo que se espera que hagas
-
-### 1. Exploración inicial
-
-- Análisis exploratorio de los datos.
-- Identificación de columnas categóricas, numéricas, posibles outliers y proporción de clases (`Attrition`).
-
-### 2. Preprocesamiento
-
-- Imputación de valores faltantes si es necesario.
-- Codificación de variables categóricas con `OneHotEncoder`.
-- Escalado de variables numéricas con `StandardScaler`.
-- Uso de `ColumnTransformer` para combinar transformaciones.
-- Implementación de todo en un `Pipeline`.
-
-### 3. Modelado
-
-- Entrenamiento de al menos **tres clasificadores diferentes**, por ejemplo:
-  - `LogisticRegression`
-  - `KNeighborsClassifier`
-  - `RandomForestClassifier`
-- Evaluación con `cross_val_score` y métricas como `accuracy`, `roc_auc`.
-
-### 4. Ajuste de hiperparámetros
-
-- Aplicar `GridSearchCV` o `RandomizedSearchCV` a al menos un modelo.
-
-### 5. Evaluación final
-
-- Evaluación sobre conjunto de prueba separado.
-- Mostrar:
-  - Matriz de confusión
-  - Curva ROC + AUC
-  - Importancia de variables (si el modelo lo permite)
-
-### 6. Documentación
-
-- Incluir un `README.md` explicando:
-  - El problema que resolvés
-  - Modelos utilizados y decisiones tomadas
-  - Resultados obtenidos
-  - Instrucciones para correr el proyecto
-  - Reflexiones o aprendizajes
+- **Nombre:** IBM HR Analytics Employee Attrition & Performance
+- **Fuente:** [Kaggle](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
+- **Archivo:** `WA_Fn-UseC_-HR-Employee-Attrition.csv` (renombrado como `employee-attrition-dataset.csv`)
+- **Instrucciones:** descargá el archivo desde el link de Kaggle y colocalo en la misma carpeta que el notebook.
 
 ---
 
-## ✅ Bonus (opcional)
+## 🧪 Flujo de trabajo aplicado
 
-- Integrar `Pipeline` con `GridSearchCV`.
-- Comparar visualmente modelos.
-- Usar `Lasso` para selección de variables.
-- Separar correctamente en `train`, `validation`, y `test`.
+1. **Exploración inicial del dataset**
+
+   - Inspección de tipos de variables, valores faltantes y distribución de la variable objetivo.
+   - Visualización con gráficos simples (barras, proporciones).
+
+2. **Preprocesamiento**
+
+   - Codificación de la variable objetivo (`Attrition`) a 0 y 1.
+   - Identificación de columnas numéricas y categóricas.
+   - Aplicación de `StandardScaler` a columnas numéricas.
+   - Aplicación de `OneHotEncoder` a columnas categóricas.
+   - División en `train` y `test` **antes de transformar**, evitando data leakage.
+
+3. **Entrenamiento de modelos**
+
+   - `LogisticRegression`
+   - `KNeighborsClassifier`
+   - `RandomForestClassifier`
+
+4. **Evaluación de desempeño**
+
+   - Matriz de confusión
+   - `classification_report` (accuracy, recall, f1)
+   - ROC AUC score
+   - Curvas ROC comparando modelos
+
+5. **Ajuste de hiperparámetros**
+   - `GridSearchCV` sobre `LogisticRegression`, maximizando `recall`
+
+---
+
+## 🧠 Resultados principales
+
+- **Mejor modelo:** `LogisticRegression` con `class_weight='balanced'`
+- **Mejores hiperparámetros:** `C=0.0001`, `solver='liblinear'`
+- **Recall en test set:** 0.78
+- **Principales variables influyentes:** `TotalWorkingYears`, `YearsInCurrentRole`, `Age`, `JobLevel` y `MonthlyIncome`
+
+---
+
+## ⚙️ Cómo correr el proyecto
+
+1. Cloná el repositorio:
+
+   ```bash
+   git clone https://github.com/tu_usuario/employee-attrition-prediction.git
+   cd employee-attrition-prediction
+   ```
+
+2. Instalá las dependencias (si usás pip):
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Descargá el dataset desde Kaggle y guardalo como:
+
+   ```
+   employee-attrition-dataset.csv
+   ```
+
+4. Abrí y ejecutá el archivo `workflow.ipynb` paso a paso.
+
+---
+
+## 📌 Qué aprendí
+
+- Cómo preparar y transformar un dataset real para modelos de machine learning.
+- Cómo comparar modelos con métricas más informativas que el accuracy.
+- Cómo usar `GridSearchCV` para mejorar un modelo supervisado.
+- Cómo evitar errores comunes como el _data leakage_.
+
+---
+
+## ✅ Estado del proyecto
+
+Este es un **primer proyecto completo**, sin uso de `Pipeline` ni modularización avanzada, pensado para entender en detalle cada etapa del flujo de machine learning. Es una base sólida para proyectos más complejos o para comenzar a construir un portfolio profesional.
 
 ---
